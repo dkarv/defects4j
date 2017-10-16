@@ -48,7 +48,7 @@ our @ISA = qw(Exporter);
 my $dir = dirname(abs_path(__FILE__));
 
 # Enable debugging and verbose output
-our $DEBUG = 0;
+our $DEBUG = 1;
 
 =pod
 
