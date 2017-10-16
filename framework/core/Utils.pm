@@ -284,18 +284,18 @@ sub exec_cmd {
     @_ >= 2 or die $ARG_ERROR;
     my ($cmd, $descr, $log_ref) = @_;
     print(STDERR substr($descr . '.'x75, 0, 75), " ");
-    my $log = `$cmd`; my $ret = $?;
-    $$log_ref = $log if defined $log_ref;
-    if ($ret!=0) {
-        print(STDERR "FAIL\n$log");
-        print(STDERR "Executed command: $cmd\n");
-        return 0;
+    open my $cmd_fh, "$cmd |" or die "Error running $!";
+    while (<$cmd_fh>) {
+        print(STDERR "$_");
     }
-    print(STDERR "OK\n");
-    # Upon success, only print log messages if debugging is enabled
+    close $cmd_fh;
+    my $exit_value=$? >> 8;
     print(STDERR "Executed command: $cmd\n") if $DEBUG;
-    print(STDERR $log) if $DEBUG;
-
+    if($exit_value != 0) {
+        print(STDERR "FAIL\n");
+    } else {
+        print(STDERR "OK\n");
+    }
     return 1;
 }
 
