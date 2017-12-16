@@ -1059,7 +1059,7 @@ sub _ant_call {
               " && ant" .
                 " -f $D4J_BUILD_FILE" .
                 " -Dd4j.home=$BASE_DIR" .
-                " -Dbasedir=$self->{prog_root} ${option_str} $target 2>&1";
+                " -Dbasedir=$self->{prog_root} ${option_str} $target";
     my $log;
     my $ret = Utils::exec_cmd($cmd, "Running ant ($target)", \$log);
 
